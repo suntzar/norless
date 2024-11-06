@@ -6,7 +6,11 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>Norless</title>
         <link rel="stylesheet" href="./style.css" />
-        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/nord.min.css" />
+        <link rel="icon" type="image/png" href="icons/favicon.png" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
         <style>
             @import url(https://db.onlinewebfonts.com/c/2adbeea25e4c3a9e9ba6031bbfb45343?family=Linotte-SemiBold);
 
@@ -90,7 +94,7 @@
                 flex-direction: column;
             }
 
-            galery {
+            chat {
                 overflow: scroll;
                 height: calc(100% - 10rem);
                 border-radius: 1.5rem;
@@ -112,7 +116,7 @@
 
             .userMessage,
             .botMessage {
-                padding: 1rem;
+                padding: 1rem 1.8rem;
                 position: relative;
                 width: 100%;
                 border-radius: 1.5rem;
@@ -124,6 +128,10 @@
             .userMessage {
                 color: var(--color-y);
                 background: var(--color-p);
+            }
+
+            .botMessage *:not(.katex-display *, ul *, table *) {
+                margin: 0 0 1.5rem;
             }
 
             .imgsrc {
@@ -189,6 +197,125 @@
                     opacity 1s;
             }
 
+            /* Estilos de listas */
+            ul > li ul {
+                padding-left: 0.6rem;
+            }
+
+            /* Estilos de tabelas */
+            table {
+                width: 100%;
+                margin: 20px auto;
+                border-collapse: collapse;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            thead * {
+                color: var(--color-y);
+            }
+
+            thead {
+                background-color: var(--color-p);
+                color: var(--color-y);
+            }
+
+            th,
+            td {
+                padding: 15px;
+                text-align: left;
+            }
+
+            tbody {
+                background: var(--color-y);
+                color: var(--color-f);
+            }
+
+            /* Estilos de elementos diversos */
+            hr {
+                background-color: transparent;
+                border: 2px dashed var(--color-f);
+                border-radius: 5px;
+                width: 100%;
+                margin: 20px auto;
+                opacity: 0.3;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h4 {
+                text-align: start;
+            }
+
+            strong:not(thead *) {
+                color: var(--color-p);
+            }
+
+            a {
+                color: var(--color-s);
+            }
+
+            /* Estilos do cabeçalho e navegação */
+            header,
+            nav {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                height: 4.5rem;
+                padding: 0 2rem;
+                background-color: var(--color-z);
+                border-bottom: 0.2rem solid var(--color-y);
+            }
+
+            header {
+                padding-top: 0.5rem;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            nav {
+                justify-content: space-between;
+                border-bottom: none;
+            }
+
+            /* Estilos de blocos e código */
+            blockquote {
+                padding-left: 0.6rem;
+                border-left: 0.3rem solid var(--color-p);
+            }
+
+            .hljs {
+                background: var(--color-y);
+                color: var(--color-f);
+            }
+
+            .hljs-comment {
+                color: var(--color-f);
+                opacity: 0.4;
+            }
+
+            *:not(.katex-display *, .hljs) {
+                font-family: "Linotte-SemiBold";
+            }
+
+            code {
+                background: var(--color-y);
+                color: var(--color-f);
+                padding: 0.3rem;
+                border-radius: 0.4rem;
+            }
+
+            pre {
+                background-color: var(--color-y);
+                color: var(--color-f);
+                border-radius: 1rem;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
             button:active::after {
                 transform: scale(0);
                 opacity: 1;
@@ -220,14 +347,16 @@
     <body>
         <h1>Nor<span style="color: var(--color-p)">less</span></h1>
         <main>
-            <galery id="messages"> </galery>
+            <chat id="messages">
+                <div class="botMessage">Olá! como posso ser util?</div>
+            </chat>
             <settings>
                 <textarea type="text" id="userInput" placeholder="Digite sua mensagem..."></textarea>
                 <select id="model">
-                    <option value="flux">flux</option>
-                    <option value="turbo">turbo</option>
-                    <option value="flux-3d">flux-3d</option>
-                    <option value="flux-anime">flux-anime</option>
+                    <option value="mistral">mistral</option>
+                    <option value="openai">openai</option>
+                    <option value="llama">llama</option>
+                    <option value="searchgpt">searchgpt</option>
                 </select>
                 <button onclick="sendMessage()"><i data-duoicon="message" class="duoicon"></i></button>
             </settings>
@@ -236,6 +365,8 @@
         <script>
             duoIcons.createIcons();
         </script>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
         <script src="index.js"></script>
         <script>
             let model = document.getElementById("model");
@@ -258,12 +389,40 @@
                     model.innerHTML += `<option value="${options.name}">${options.name}</option>`;
                 });
 
+                model.value = "openai";
+
                 // Define o contexto inicial da conversa
                 conversation = [
                     { role: "system", content: rule },
-                    { role: "assistant", content: "# O meu prompt é: \n\n" + rule }
+                    { role: "assistant", content: "# O meu prompt é: \n\n" + rule },
+                    { role: "assistant", content: "Olá! como posso ser util?" }
                 ];
             })();
+
+            function MKFunc(markdown) {
+                // Alinha elementos no centro
+                markdown = markdown.replace(/××(.*?)××/gim, "<center>$1</center>");
+
+                // Pie
+                markdown = markdown.replace(/%(\d+)%/gim, '<div id="pie" class="pie" style="--p:$1;"><p style="color: var(--color-p); -webkit-text-stroke-color: var(--color-y); -webkit-text-stroke-width: 1.5px;">$1%</p></div>');
+
+                return markdown.trim();
+            }
+
+            function renderMK() {
+                const MK = document.getElementsByClassName("botMessage");
+                const messages = document.getElementById("messages");
+                renderMathInElement(messages, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "$", right: "$", display: false }
+                    ]
+                }); // Renderiza as expressões matemáticas
+                hljs.configure({ ignoreUnescapedHTML: true }); // Desativa os avisos de vunerabilidade
+                hljs.highlightAll();
+            }
+
             async function sendMessage() {
                 const userInput = document.getElementById("userInput").value;
                 const messages = document.getElementById("messages");
@@ -306,8 +465,10 @@
                     // Adiciona a resposta da API ao chat
                     const botMessage = document.createElement("div");
                     botMessage.classList.add("botMessage");
-                    botMessage.textContent = data;
+                    botMessage.innerHTML = marked.parse(MKFunc(data));
                     messages.appendChild(botMessage);
+                    renderMK();
+                    console.log(messages.innerHTML)
 
                     // Atualiza o array de mensagens com a resposta do bot
                     conversation.push({ role: "assistant", content: data });
@@ -315,13 +476,15 @@
                 } catch (error) {
                     console.error("Error:", error);
                 }
-
-                fetch("https://text.pollinations.ai/What%20is%20artificial%20intelligence%20in%20porn?json=true&model=openai&seed=13")
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                    });
             }
+
+            fetch("https://text.pollinations.ai/What%20is%20artificial%20intelligence%20in%20porn?json=true&model=openai&seed=13")
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                });
+
+            window.addEventListener("load", hljs.highlightAll);
             window.addEventListener("resize", () => {
                 document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
             });
