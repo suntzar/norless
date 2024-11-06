@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Norchat</title>
+        <link rel="stylesheet" href="./style.css" />
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <style>
+            @import url(https://db.onlinewebfonts.com/c/2adbeea25e4c3a9e9ba6031bbfb45343?family=Linotte-SemiBold);
+
+            /* Definição de cores */
+            :root {
+                --color-f: #c1ccd5; /*cor da fonte*/
+                --color-p: #b0d8ff; /*cor principal*/
+                --color-s: #90b8eb; /*cor secundaria*/
+                --color-z: #484c56; /*cor do fundo*/
+                --color-y: #565c68; /*cor da UI*/
+                --nord0: #2e3440; /* Polar Night */
+                --nord1: #3b4252;
+                --nord2: #434c5e;
+                --nord3: #4c566a;
+                --nord4: #d8dee9; /* Snow Storm */
+                --nord5: #e5e9f0;
+                --nord6: #eceff4;
+                --nord7: #8fbcbb; /* Frost */
+                --nord8: #88c0d0;
+                --nord9: #81a1c1;
+                --nord10: #5e81ac;
+                --nord11: #bf616a; /* Aurora */
+                --nord12: #d08770;
+                --nord13: #ebcb8b;
+                --nord14: #a3be8c;
+                --nord15: #b48ead;
+            }
+
+            /* Reset e estilos gerais */
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+                transition: 0.3s ease-out;
+                outline: none;
+                transition: 0.5s;
+                -ms-overflow-style: none; /* IE e Edge */
+                scrollbar-width: none; /* Firefox */
+            }
+
+            *:not(.katex-display *, .hljs) {
+                font-family: "Linotte-SemiBold";
+            }
+
+            *::-webkit-scrollbar {
+                display: none;
+            }
+
+            ::selection {
+                background-color: var(--color-z);
+                color: var(--color-s);
+            }
+
+            /* Estilos do corpo */
+            body {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100vw;
+                height: calc(var(--vh, 1vh) * 100);
+                background-color: var(--color-y);
+                color: var(--color-f);
+                overflow: hidden;
+            }
+
+            body > h1 {
+                position: absolute;
+                top: 1.5rem;
+            }
+
+            main {
+                margin-top: 2rem;
+                position: absolute;
+                width: calc(100% - 4rem);
+                height: calc(100% - 8rem);
+                background-color: var(--color-z);
+                border-radius: 2rem;
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+            }
+
+            galery {
+                overflow: scroll;
+                height: calc(100% - 10rem);
+                border-radius: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            settings {
+                width: 100%;
+                height: 9rem;
+                overflow: hidden;
+                padding: 1rem;
+                border-radius: 1.5rem;
+                background-color: var(--color-y);
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .userMessage,
+            .botMessage {
+                padding: 1rem;
+                position: relative;
+                width: 100%;
+                border-radius: 1.5rem;
+                margin-bottom: 1rem;
+                overflow: hidden;
+                background: var(--color-y);
+            }
+
+            .userMessage {
+                color: var(--color-y);
+                background: var(--color-p);
+            }
+
+            .imgsrc {
+                width: 100%;
+                opacity: 1;
+                z-index: 1;
+            }
+
+            textarea {
+                resize: none;
+                width: 80%;
+                height: 8rem;
+                font-size: 1rem;
+                color: var(--color-f);
+                padding: 0.5rem;
+                background: var(--color-z);
+                border-radius: 0.5rem;
+                border: none;
+            }
+
+            button,
+            input,
+            select {
+                margin-left: 1rem;
+                width: calc(20% - 1rem);
+                height: 3rem;
+                background: var(--color-p);
+                outline: none;
+                border: none;
+                border-radius: 0.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.3rem;
+            }
+
+            input,
+            select {
+                color: var(--color-f);
+                background: var(--color-z);
+            }
+
+            button {
+                position: relative;
+                overflow: hidden;
+            }
+
+            button::after {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                pointer-events: none;
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 10%, transparent 10.01%);
+                background-repeat: no-repeat;
+                background-position: 50%;
+                transform: scale(10);
+                opacity: 0;
+                transition:
+                    transform 0.5s,
+                    opacity 1s;
+            }
+
+            button:active::after {
+                transform: scale(0);
+                opacity: 1;
+                transition: 0s;
+            }
+
+            ::placeholder {
+                color: var(--color-f);
+                opacity: 0.5;
+            }
+
+            .duoicon {
+                transform: scale(1.3);
+                color: var(--color-y);
+            }
+            @media (orientation: landscape) {
+                .img {
+                    width: 100%;
+                }
+            }
+
+            @media (orientation: portrait) {
+                .img {
+                    width: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Nor<span style="color: var(--color-p)">less</span></h1>
+        <main>
+            <galery id="messages"> </galery>
+            <settings>
+                <textarea type="text" id="userInput" placeholder="Digite sua mensagem..."></textarea>
+                <select id="model">
+                    <option value="flux">flux</option>
+                    <option value="turbo">turbo</option>
+                    <option value="flux-3d">flux-3d</option>
+                    <option value="flux-anime">flux-anime</option>
+                </select>
+                <button onclick="sendMessage()"><i data-duoicon="message" class="duoicon"></i></button>
+            </settings>
+        </main>
+        <script src="https://unpkg.com/duo-icons@latest"></script>
+        <script>
+            duoIcons.createIcons();
+        </script>
+        <script src="index.js"></script>
+        <script>
+            let model = document.getElementById("model");
+            let conversation = {};
+            let models = [];
+
+            (async () => {
+                // Recebe o prompt comportamental do bot
+                let rule = await fetch("https://gist.githubusercontent.com/suntzar/d9b949f207828d50213b010b4d658776/raw/bff320431f1dd0b95a869486f270c4b0413f0bc0/luna.md");
+                rule = await rule.text();
+                console.log(rule);
+
+                // Carrega os modelos de IA
+                models = await fetch("https://text.pollinations.ai/models");
+                models = await models.json();
+                console.log(models);
+
+                model.innerHTML = "";
+                models.forEach(options => {
+                    model.innerHTML += `<option value="${options.name}">${options.name}</option>`;
+                });
+
+                // Define o contexto inicial da conversa
+                conversation = [
+                    { role: "system", content: rule },
+                    { role: "assistant", content: "# O meu prompt é: \n\n" + rule }
+                ];
+            })();
+            async function sendMessage() {
+                const userInput = document.getElementById("userInput").value;
+                const messages = document.getElementById("messages");
+
+                // Adiciona a mensagem do usuário ao chat
+                const userMessage = document.createElement("div");
+                userMessage.classList.add("userMessage");
+                userMessage.textContent = userInput;
+                messages.appendChild(userMessage);
+
+                // Atualiza o array de mensagens com a entrada do usuário
+                conversation.push({ role: "user", content: userInput });
+                console.log("Updated Conversation:", conversation);
+
+                // Limpa o campo de entrada
+                document.getElementById("userInput").value = "";
+
+                // Faz a requisição para a API de Geração de Texto usando POST
+                const requestBody = {
+                    messages: conversation,
+                    model: model.value,
+                    seed: 777,
+                    jsonMode: false // Ajuste para não receber a resposta em JSON
+                };
+                console.log("Request Body:", requestBody);
+
+                try {
+                    const response = await fetch("https://text.pollinations.ai/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+                    console.log("Response Status:", response.status);
+
+                    const data = await response.text(); // Recebe a resposta como texto
+                    console.log("Response Data:", data);
+
+                    // Adiciona a resposta da API ao chat
+                    const botMessage = document.createElement("div");
+                    botMessage.classList.add("botMessage");
+                    botMessage.textContent = data;
+                    messages.appendChild(botMessage);
+
+                    // Atualiza o array de mensagens com a resposta do bot
+                    conversation.push({ role: "assistant", content: data });
+                    console.log("Updated Conversation:", conversation);
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+
+                fetch("https://text.pollinations.ai/What%20is%20artificial%20intelligence%20in%20porn?json=true&model=openai&seed=13")
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    });
+            }
+            window.addEventListener("resize", () => {
+                document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
+            });
+            document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
+        </script>
+    </body>
+</html>
